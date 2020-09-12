@@ -52,3 +52,6 @@ ES7： async
     console.log('red')
   }
 
+### 主线程 任务队列
+
+主线程执行完一个tick之后，会去进入任务队列，清空micro task任务（微任务）

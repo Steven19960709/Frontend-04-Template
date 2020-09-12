@@ -26,7 +26,11 @@ function show () {
   }
 }
 function userMove (x, y) {
+  if (pattern[y * 3 + x]) { // 不允许重复点击
+    return
+  }
   pattern[y * 3 + x] = color
+  debugger
   if (check(pattern, color)) {
     alert(color == 2 ? 'X is winner' : 'O is winner' )
   }
@@ -138,5 +142,3 @@ function bestChoice (pattern, color) {
 }
 
 show()
-
-// console.log(bestChoice(pattern, color))
