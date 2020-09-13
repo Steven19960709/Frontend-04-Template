@@ -1,0 +1,124 @@
+<script>
+  //kmp 字符串的模式匹配算法，原串和pattern串待查的串
+  // 暴力算法，O（m+n）复杂度
+  // kmp算法：关注字符串的自重复行为。根据模式串计算出跳转表格， 然后拿模式串和原串进行对比
+
+  // 比如对于字符串aba来说，它有长度为1的相同前缀后缀a；而对于字符串abab来说，它有长度为2的相同前缀后缀ab（相同前缀后缀的长度为k + 1，k + 1 = 2）。
+
+  // 最大重复子串表 table: abcdabd 0000120
+  
+  // 失配时，模式串向右移动的位数为：已匹配字符数 - 失配字符的上一位字符所对应的最大长度值
+
+  // 失配时，模式串向右移动的位数为：失配字符所在位置 - 失配字符对应的next 值 table整体向右移动一位，abcdabd -1000012
+  
+  // 
+  function kmp (source, pattern) {
+    let table = new Array(pattern.length).fill(0)
+    {
+      let i = 1, j = 0
+      while ( i < pattern.length) {
+        if (pattern[i] === pattern[j]) {
+          // 有自重复
+            ++i, ++j
+            table[i] = j // 做一个标记
+        } else {
+          if (j > 0) {
+            j = table[i]
+            ++i
+          } else {
+            ++i
+          }
+        }
+      }
+    }
+    console.log(table)
+    // {
+    //   let i = 0, j = 0
+    //   while ( i < source.length) {
+    //     if (pattern[j] === source[i]) {
+    //       ++i, ++j
+    //       // table[i] = j // 做一个标记
+    //     } else {
+    //       if (j > 0) {
+    //         j = table[j]
+    //       } else {
+    //         ++i
+    //       }
+    //     }
+    //     if (j === pattern.length ) return true
+    //   }
+    //   return false
+    // }
+
+  }
+    function buildNext(pattern) {
+      let len = pattern.length
+      let j = 0
+      let next = []
+      next[0] = -1
+      let t = -1
+      while (j < len - 1) {
+        if (0 > t || pattern[j] === pattern[t]) {
+          // next[++j] = ++t
+          j++
+          t++
+
+          next[j] = pattern[j] != pattern[t] ? t : next[t] 
+          // 解决诸如：000100001 与 00001 匹配，0多次匹配的问题
+        } else { // 失配
+          t = next[t]
+        }
+      }
+      return next
+    }
+
+ function kmp2 (source, pattern) {
+  let next = buildNext(pattern)
+  let n = source.length
+  let i = 0
+  let m = pattern.length
+  let j = 0
+
+  while(j < m && i < n) {
+    // debugger
+    if (0 > j || source[i] === pattern[j]) {
+      i++
+      j++
+      console.log('sc', source[i], 'pt', pattern[j])
+    } else {
+      j = next[j]
+      console.log('j', j, 'next j', next[j], j)
+    }
+  }
+  console.log(i, j)
+  if (j === m) return i - j
+  return -1
+ }
+  function bm (source, pattern) {
+    // 暴力算法
+    let sl = source.length
+    let pl = pattern.length
+    let i = 0
+    let j = 0
+    while ( i < sl && j < pl) {
+      if (source[i].toString() === pattern[j].toString()) {
+        i++
+        j++
+      } else {
+        i = i - j + 1
+        j = 0
+      }
+    }
+    if (j === pl) {
+      return i - j
+    } else {
+      return -1
+    }
+  }
+</script>
+
+// kmp，可以使模式串快速有一，
+
+// 自匹配 = 快速有一
+
+// 
