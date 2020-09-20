@@ -97,9 +97,15 @@ example：++a++， ++(a++)
 
 ## 类型转换
 
+
 双等号的转换规则非常恶心。同种类型可以比较，不同类型，基本上都是先转化为Number类型在比较。
 
 ### 拆箱转换
+
+刚刚学到一个很底层的知识。
+
+代码如下：
+
 
 把一个Object转化为基本类型。toPremitive阶段。
 
@@ -122,4 +128,121 @@ console.log("x" + o) // x调用valueOf方法进行转换
 包装类：如果属性访问，例如a.b，如果a是一个基础类型，会先调用对应的包装类方法。生产对应对象。
 例如：let  a = 2
 
-a.b = 3 // 先 new Number(a) 然后设置b属性。
+a.b = 3 // 先 new Number(a) 然后设置b属性。可以通过typeof来区分，是包装前的对象还是包装后的值
+
+StringToNunber()
+
+NumberToString()
+
+## 语句 statement
+
+### 运行时相关概念：确定执行顺序，语句执行结果介入
+
+Completion Record type：
+
+  if (x === 1) return 10 // 可能执行，也可能不执行，通过Completion record来判定
+
+[[type]]: normal, break, continue, reutrn or throw
+[[value]]: 基本类型
+[[target]]: label
+
+
+用来控制语句
+
+### 简单语句
+
+简单语句：里面不会容纳其他语句的语句。
+
+#### 表达式语句 Expression Statement 简单语句最基本的一个类型。
+
+#### 空语句 EmptyStatement 单独一个分号，就是一个空语句。
+
+#### 调试语句 DebuggerStatement debbuger；不会用啥作用，会触发一个断电
+
+#### 控制语句
+
+  - ThrowStatement 报错语句
+  - ContinueStatement  继续循环
+  - BreakStatement 跳出循环
+  - ReturnStatement 结束
+
+### 复合语句
+
+控制简单语句执行顺序
+
+#### BlockState：块级语句
+
+  {
+    // 
+  }
+
+#### IfStatement：if语句
+
+#### SwitchStatement：不建议使用switch，可以使用多个if else代替
+
+#### IterationStatement：迭代语句
+
+  - while 语句
+  - do while
+  - for
+  - for ... in
+  - for ... of
+
+#### WithStatement with语句
+
+#### LabelledStatement label语句，简单语句前买一个label，可以用来跳到对应的循环
+
+#### TryStatement：Try catch finally语句，try 不能省略花括号 
+
+  try {
+
+  } catch () {
+
+  } finally {
+    // 即使try中return出去了，finally也会执行
+  }
+
+  [[type]]: return
+  [[value]]: --
+  [[target]]: tabel
+
+## 声明
+
+const let: 属于Lexical Declaration
+
+#### Function Declaration 函数声明
+
+四种形态 
+
+- function
+- function * Generator Declaration
+- async function AsyncFuction Declaration
+- async function * AsyncGenerator Declaration
+
+### VariableState Declaration var
+
+###  classDeclaration：未经声明使用报错
+
+### Lexical Declaration：未经声明使用报错
+
+### 预处理机制 pre-process
+
+var a = 2
+function d() {
+  a = 1
+  return 
+  var a
+}
+d()
+console.log(a) // 2
+
+作用域：针对代码里头来说，使用花括号来分割作用域
+
+  function a() {
+    var d = 1
+    {
+      const d = 4
+      // ...
+    }
+  }
+
