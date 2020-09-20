@@ -1,0 +1,20 @@
+<script>
+  // 对象和原始值做加法，这里涉及到，对象的拆箱操作。（包装类的反向操作）
+let x = {}
+
+let o = {
+  toString() {
+    return '2'
+  },
+  valueOf() {
+    return 1
+  },
+  [Symbol.toPrimitive]() {
+    return 3
+  }
+}
+
+x[o] = 1
+
+console.log('x' + o) // 请给出这里'x' + o 的结果
+</script>
