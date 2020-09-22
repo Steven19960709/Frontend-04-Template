@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+    #container {
+      width: 1200px;
+    }
+    .cell {
+      line-height: 7px;
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background-color: yellow;
+      border: 1px solid rgba(0, 0, 0, .8);
+      /* border-bottom: solid 1px black;
+      border-right: solid 1px black; */
+      /* vertical-align: middle; */
+    }
+  </style>
+  <div id="container">
+
+  </div>
+  <button onclick="localStorage['map'] = JSON.stringify(map)"> save </button>
+  <script>
+    let map = localStorage['map'] ? JSON.parse(localStorage['map']) : Array(10000).fill(0) // 保存localStorage
+    let container = document.getElementById('container')
+    function initMap() {
+      for (let y = 0; y < 100; y++) {
+        for (let x = 0; x < 100; x++) {
+          let cell = document.createElement('div')
+          cell.classList.add('cell')
+          if ((100*y+x) === 5000) {
+            cell.innerText = 'H'
+          }
+          if (map[100 * y + x] == 1) cell.style.backgroundColor = 'black'
+          cell.addEventListener('mousemove', () => {
+            if (mousedown) {
+              if (clear) {
+                cell.style.backgroundColor = ""
+                map[100 * y + x] = 0
+              } else {
+                cell.style.backgroundColor = 'black'
+                map[100 * y + x] = 1
+              }
+            }
+          })
+          container.appendChild(cell)
+        }
+      }
+      let mousedown = false
+      let clear = false
+      document.addEventListener('mousedown', e => {
+        mousedown = true
+        clear = (e.which === 3)
+      })
+      document.addEventListener('mouseup', () => mousedown= false)
+      document.addEventListener('contextmenu', e => e.preventDefault())
+    }
+    
+    
+    
+    
+    class Sorted {// 保证每次罗东最小的数据
+      constructor (data, compare) {
+          this.data = data.slice()
+          this.compare = compare || ((a, b) => a - b)
+      }
+      take () {
+          if (!this.data.length) return
+          let min = this.data[0]
+          let minIndex = 0
+          for(let i = 0; i < this.data.length; i++) {
+              if (this.compare(this.data[i], min) < 0) {
+                  min = this.data[i]
+                  minIndex = i
+              }
+          }
+          this.data[minIndex] = this.data[this.data.length - 1]
+          this.data.pop()
+          return min
+      }
+      give(v) {
+          this.data.push(v)
+      }
+    }
+
+    initMap()
+  </script>
+  <script src='./map.js'></script>
+</body>
+</html>

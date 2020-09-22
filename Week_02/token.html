@@ -1,0 +1,35 @@
+<script>
+  // console.log(2)
+  let reg = /([0-9\.]+)|([ \t]+)|([\r\n]+)|(\*)|(\/)|(\+)|(\-)/g
+
+  var ditionary = ["Number", "Whitespace", "LineTerminator", "*", "/", "+", "-"]
+
+  function * tokenize(source) { // 词法分析
+    var result = null
+    let lastIndex = 0
+    while(true) {
+      lastIndex = reg.lastIndex
+      result = reg.exec(source)
+      if (!result) break
+      if (reg.lastIndex - lastIndex > result[0].length) break // 说明又不认识的字符或格式
+
+      let token = {
+        type: null,
+        value: null
+      }
+      for (var i = 0; i <= ditionary.length; i++) {
+        if (result[i]) {
+          token.type = ditionary[i - 1]
+        }
+      }
+      token.value = result[0]
+      yield token
+      // console.log(result)
+    }
+  }
+
+  // tokenize('1024 + 10 * 25')
+  for (let token of tokenize("1024 + 10 * 25")) {
+    console.log(token)
+  }
+</script>
