@@ -3,6 +3,7 @@ let currentToken = null
 let currentAttribute = null
 let currentTextNode = null
 let css = require('css')
+const layout = require('./layout.js')
 let stack = [{type: 'document', children: []}] // 初始根结点
 function emit (token) {
   if (token.type === 'text') return // 如果是文本节点
