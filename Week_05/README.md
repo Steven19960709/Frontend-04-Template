@@ -333,3 +333,4 @@ var x = {} // 创建一个Object对象
 
   addTen(2);
   // 12
+  
