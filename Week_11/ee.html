@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .b {
+    width: 100px;
+    height: 500px;
+    overflow: scroll;
+    background-color: hotpink;
+  }
+  .b::before {
+    content: 'hello hello hello hello';
+    background-color: yellow;
+  }
+  .b {
+    width: 200px;
+    height: 200px;
+    background-color: gray;
+  }
+</style>
+<body>
+  <div class="b">
+    <!-- <div class="b"></div> -->
+    <span class="a">zhe   zhez hehz hehz he</span>
+  </div>
+</body>
+<script>
+  let a = document.getElementsByClassName('a')[0]
+  let b = document.getElementsByClassName('b')[0]
+
+
+</script>
+</html>
